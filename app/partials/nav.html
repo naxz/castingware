@@ -1,0 +1,27 @@
+<nav class="nav has-shadow" data-ng-controller="Nav">
+  <div class="container">
+    <div class="nav-left">
+      <a href="#home" data-ng-class="{'is-active' : page == 'home'}" class="nav-item is-tab">Home</a>
+      <a href="#diagnosticar" data-ng-class="{'is-active' : page == 'diagnosticar'}" class="nav-item is-tab">Diagnosticar</a>
+      <a href="#logs" data-ng-class="{'is-active' : page == 'logs'}" class="nav-item is-tab">Registro de Operaciones</a>
+      <a href="#about" data-ng-class="{'is-active' : page == 'about'}" class="nav-item is-tab">About</a>
+    </div>
+    
+    <div data-ng-show="page != 'login'" class="nav-right nav-menu">
+      <a data-ng-show="!$root.currentUser" class="nav-item">
+        <div class="control has-icon is-expanded">
+          <input data-ng-model="$root.user" data-ng-keypress="submitLogIn($event)" type="email" class="input is-flat required email" placeholder="Email" required>
+          <span class="icon is-small"><i class="fa fa-envelope"></i></span>
+        </div>
+      </a>
+      <a data-ng-show="!$root.currentUser" data-ng-click="logIn()" class="nav-item is-tab">Ingresar</a>
+      <a data-ng-show="$root.currentUser" class="nav-item" style="pointer-events: none; cursor: default;">
+        <figure class="image is-16x16" style="margin-right: 8px;">
+          <i class="fa fa-user-circle" aria-hidden="true"></i>
+        </figure>
+        {{currentUser}}
+      </a>
+      <a data-ng-show="$root.currentUser" data-ng-click="logOut()" class="nav-item is-tab">Salir</a>
+    </div>
+  </div>
+</nav>

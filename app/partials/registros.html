@@ -1,0 +1,62 @@
+﻿<!-- Cabecera de página -->
+<section class="hero is-info">
+  <div class="hero-body" style="padding-top: 3rem; padding-right: 1.5rem; padding-bottom: 2rem; padding-left: 1.5rem;">
+    <div class="container">
+      <div class="columns is-vcentered">
+        <div class="column">
+          <h1 class="title is-2"><strong>Registro de Operaciones</strong></h1>
+          <h1 class="subtitle is-4">Consultá los diagnósticos que realizaste y exportalos.</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-foot" style="padding-top:1.52rem;">
+    <div class="container">
+      <nav class="tabs is-boxed">
+        <ul>
+          <li class="is-active"><a><strong>Log</strong></a></li>
+          <li><a data-ng-click="exportarLog()"><strong>Exportar</strong></a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</section>
+
+<!-- Si no hay registros, indicar que debe diagnosticar primero -->
+<section data-ng-show="!hasLogs" class="hero is-large">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h1 class="title">Aún no tienes registros. Dirígete a <a href="#diagnosticar"><strong>Diagnosticar</strong></a> para comenzar.</h1>
+    </div>
+  </div>
+</section>
+
+<!-- Si hay registros, listarlos -->
+<section data-ng-show="hasLogs" class="hero is-large">
+  <div class="hero-body" style="padding-bottom: 3rem; padding-top: 3rem">
+    <div class="container" style="overflow-x:auto; display: block;">
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="text-align: center">#</th>
+            <th>Fecha</th>
+            <th>Familia</th>
+            <th>Subfamilia</th>
+            <th>Características</th>
+            <th>Causas</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="cursor: pointer; cursor: hand; -moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;" data-ng-repeat="entry in logs | orderBy: 'fecha':true" data-ng-click="details(entry);">
+            <td style="text-align: center;">{{$index + 1}}</td>
+            <td style="white-space: pre;"><strong>{{entry.fecha}}</strong></td>
+            <td style="white-space: pre; text-align: left;">{{entry.familia.nombre | clipsToTitle}}</td>
+            <td style="white-space: pre; height:50; overflow: hidden;"><div style="text-align: left;" data-ng-show="!entry.expanded">{{entry.diagnostico.subfamilia}}</div><div data-ng-show="entry.expanded"><div align="left">{{entry.diagnostico.subfamilia}}</div><br><div align="center"><figure style="margin-left: auto; margin-right: auto;"><img ng-if="entry.diagnostico.imagenUrl !='No definida'" class="image is-128x128" data-ng-src="{{entry.diagnostico.imagenUrl}}"></figure></div></div></td>
+            <td style="white-space: pre; height:50; overflow: hidden;"><div data-ng-show="!entry.expanded"><span class="icon"><i class="fa fa-ellipsis-h"></i></span></div><div data-ng-show="entry.expanded" data-ng-repeat="caracteristica in entry.familia.caracteristicas"><b>{{caracteristica.nombre | clipsToNormal}}:</b> {{caracteristica.valor}}</div></td>
+            <td style="white-space: pre; height:50; overflow: hidden;"><div data-ng-show="!entry.expanded"><span class="icon"><i class="fa fa-ellipsis-h"></i></span></div><div data-ng-show="entry.expanded" data-ng-repeat="causa in entry.diagnostico.causas">{{causa}}</div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
